@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "question": "What is the capital of France?",
+    "options": [
+      "Berlin",
+      "Madrid",
+      "Paris",
+      "Rome"
+    ],
+    "correctAnswerIndex": 2
+  },
+  {
+    "id": 2,
+    "question": "Which planet is known as the Red Planet?",
+    "options": [
+      "Earth",
+      "Mars",
+      "Jupiter",
+      "Venus"
+    ],
+    "correctAnswerIndex": 1
+  },
+  {
+    "id": 3,
+    "question": "What is the largest ocean on Earth?",
+    "options": [
+      "Atlantic Ocean",
+      "Indian Ocean",
+      "Arctic Ocean",
+      "Pacific Ocean"
+    ],
+    "correctAnswerIndex": 3
+  },
+  {
+    "id": 4,
+    "question": "Who painted the Mona Lisa?",
+    "options": [
+      "Vincent van Gogh",
+      "Pablo Picasso",
+      "Leonardo da Vinci",
+      "Michelangelo"
+    ],
+    "correctAnswerIndex": 2
+  },
+  {
+    "id": 5,
+    "question": "What is the chemical symbol for Gold?",
+    "options": [
+      "Go",
+      "Gd",
+      "Au",
+      "Ag"
+    ],
+    "correctAnswerIndex": 2
+  },
+  {
+    "id": 6,
+    "question": "Which language has the most native speakers worldwide?",
+    "options": [
+      "English",
+      "Spanish",
+      "Hindi",
+      "Mandarin Chinese"
+    ],
+    "correctAnswerIndex": 3
+  },
+  {
+    "id": 7,
+    "question": "What is the speed of light approximately?",
+    "options": [
+      "300,000 km/s",
+      "150,000 km/s",
+      "450,000 km/s",
+      "600,000 km/s"
+    ],
+    "correctAnswerIndex": 0
+  },
+  {
+    "id": 8,
+    "question": "Which element has the atomic number 1?",
+    "options": [
+      "Helium",
+      "Oxygen",
+      "Carbon",
+      "Hydrogen"
+    ],
+    "correctAnswerIndex": 3
+  },
+  {
+    "id": 9,
+    "question": "In which year did World War II end?",
+    "options": [
+      "1943",
+      "1944",
+      "1945",
+      "1946"
+    ],
+    "correctAnswerIndex": 2
+  },
+  {
+    "id": 10,
+    "question": "What is the smallest prime number?",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "correctAnswerIndex": 2
+  }
+]
