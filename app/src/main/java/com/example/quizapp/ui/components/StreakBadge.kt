@@ -48,10 +48,10 @@ fun StreakBadge(streak: Int, modifier: Modifier = Modifier) {
             .padding(horizontal = 12.dp, vertical = 6.dp)
     ) {
         Icon(
+            modifier = Modifier.size(18.dp),
             imageVector = if (isOnFire) Icons.Default.Whatshot else Icons.Default.AutoAwesome,
             contentDescription = if (isOnFire) "On fire" else "Streak",
-            tint = if (isOnFire) StreakGold else MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(18.dp)
+            tint = if (isOnFire) StreakGold else MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
             text = "$streak streak",
@@ -109,4 +109,10 @@ private fun StreakBadgePreview() {
         StreakBadge(streak = 3)
         StreakBadge(streak = 5)
     }
+}
+
+@Preview
+@Composable
+private fun StreakCelebrationPreview() {
+    StreakCelebration(streak = 3)
 }

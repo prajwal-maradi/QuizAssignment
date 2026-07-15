@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.quizapp.getPerformanceIcon
 import com.example.quizapp.viewmodel.QuizUiState
 
 /**
@@ -59,13 +60,6 @@ fun ResultScreen(
     state: QuizUiState.Finished,
     onRestart: () -> Unit
 ) {
-    val performanceIcon = when (state.performance) {
-        QuizUiState.Performance.EXCELLENT -> Icons.Default.EmojiEvents
-        QuizUiState.Performance.GREAT -> Icons.Default.Stars
-        QuizUiState.Performance.GOOD -> Icons.Default.ThumbUp
-        QuizUiState.Performance.PRACTICE -> Icons.AutoMirrored.Filled.MenuBook
-    }
-
     var animTarget by remember { mutableFloatStateOf(0f) }
     val animatedProgress by animateFloatAsState(
         targetValue = animTarget,
@@ -98,7 +92,7 @@ fun ResultScreen(
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
-        Header(icon = performanceIcon, message = state.performance.label)
+        Header(icon = getPerformanceIcon(state), message = state.performance.label)
 
         ScoreCircle(state = state, animatedProgress = animatedProgress)
 
@@ -259,10 +253,10 @@ private fun StatRow(icon: ImageVector, label: String, value: String) {
 @Composable
 private fun RestartButton(onClick: () -> Unit) {
     Button(
-        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp),
+        onClick = onClick,
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary

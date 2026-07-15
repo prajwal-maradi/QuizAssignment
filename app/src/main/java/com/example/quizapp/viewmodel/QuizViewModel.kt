@@ -18,8 +18,8 @@ class QuizViewModel(
     private val _uiState = MutableStateFlow<QuizUiState>(QuizUiState.Loading)
     val uiState: StateFlow<QuizUiState> = _uiState.asStateFlow()
 
-    private val _streakCelebrationEvent = MutableSharedFlow<Int>(extraBufferCapacity = 1)
-    val streakCelebrationEvent = _streakCelebrationEvent.asSharedFlow()
+    private val _streakCelebrationEvent = MutableStateFlow<Int?>(null)
+    val streakCelebrationEvent = _streakCelebrationEvent.asStateFlow()
 
     init {
         loadQuiz()
@@ -42,24 +42,28 @@ class QuizViewModel(
      * @param index The index of the selected answer option.
      */
     fun selectOption(index: Int) {
-        val state = _uiState.value as? QuizUiState.Playing ?: return
-        if (state.showAnswer) return
+        val quizUiStatePlaying = _uiState.value as? QuizUiState.Playing ?: return
+        if (quizUiStatePlaying.showAnswer) return
 
-        val question = state.currentQuestion
+        val question = quizUiStatePlaying.currentQuestion
         val correct = index == question.correctAnswerIndex
-        val newStreak = if (correct) state.streak + 1 else 0
-        val newLongest = maxOf(state.longestStreak, newStreak)
+        val newStreak = if (correct) quizUiStatePlaying.streak + 1 else 0
+        val newLongest = maxOf(quizUiStatePlaying.longestStreak, newStreak)
 
-        _uiState.value = state.copy(
+        _uiState.value = quizUiStatePlaying.copy(
             selectedAnswerIndex = index,
             showAnswer = true,
-            score = if (correct) state.score + 1 else state.score,
+            score = if (correct) quizUiStatePlaying.score + 1 else quizUiStatePlaying.score,
             streak = newStreak,
             longestStreak = newLongest
         )
 
         if (correct && newStreak >= 3 && newStreak % 3 == 0) {
-            _streakCelebrationEvent.tryEmit(newStreak)
+            _streakCelebrationEvent.value = newStreak
+            viewModelScope.launch {
+                delay(2000)
+                _streakCelebrationEvent.value = null
+            }
         }
 
         viewModelScope.launch {
@@ -72,9 +76,9 @@ class QuizViewModel(
      * Skips the current question and advances to the next one.
      */
     fun skipQuestion() {
-        val state = _uiState.value as? QuizUiState.Playing ?: return
-        if (state.showAnswer) return
-        _uiState.value = state.copy(skipped = state.skipped + 1, streak = 0)
+        val quizUiStatePlaying = _uiState.value as? QuizUiState.Playing ?: return
+        if (quizUiStatePlaying.showAnswer) return
+        _uiState.value = quizUiStatePlaying.copy(skipped = quizUiStatePlaying.skipped + 1, streak = 0)
         advanceToNext()
     }
 
@@ -82,19 +86,19 @@ class QuizViewModel(
      * Advances to the next question or finishes the quiz if there are no more questions.
      */
     private fun advanceToNext() {
-        val state = _uiState.value as? QuizUiState.Playing ?: return
-        if (state.currentQuestionIndex < state.questions.size - 1) {
-            _uiState.value = state.copy(
-                currentQuestionIndex = state.currentQuestionIndex + 1,
+        val quizUiStatePlaying = _uiState.value as? QuizUiState.Playing ?: return
+        if (quizUiStatePlaying.currentQuestionIndex < quizUiStatePlaying.questions.size - 1) {
+            _uiState.value = quizUiStatePlaying.copy(
+                currentQuestionIndex = quizUiStatePlaying.currentQuestionIndex + 1,
                 selectedAnswerIndex = null,
                 showAnswer = false
             )
         } else {
             _uiState.value = QuizUiState.Finished(
-                score = state.score,
-                totalQuestions = state.totalQuestions,
-                skipped = state.skipped,
-                longestStreak = state.longestStreak
+                score = quizUiStatePlaying.score,
+                totalQuestions = quizUiStatePlaying.totalQuestions,
+                skipped = quizUiStatePlaying.skipped,
+                longestStreak = quizUiStatePlaying.longestStreak
             )
         }
     }

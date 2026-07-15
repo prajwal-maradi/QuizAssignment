@@ -3,13 +3,12 @@ package com.example.quizapp.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -25,18 +24,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.quizapp.OptionState
 
-private val CorrectGreen = Color(0xFF4CAF50)
-private val WrongRed = Color(0xFFE53935)
-
-/**
- * Represents the state of an option in a quiz.
- */
-enum class OptionState {
-    NORMAL,
-    CORRECT,
-    WRONG
-}
+private val CorrectAnswerCardColor = Color(0xFF4CAF50)
+private val WrongAnswerCardColor = Color(0xFFE53935)
 
 /**
  * A composable that represents a single option card in a quiz.
@@ -59,20 +50,20 @@ fun OptionCard(
     val shape = RoundedCornerShape(12.dp)
 
     val backgroundColor = when {
-        showCorrect -> CorrectGreen.copy(alpha = 0.12f)
-        showWrong -> WrongRed.copy(alpha = 0.12f)
+        showCorrect -> CorrectAnswerCardColor.copy(alpha = 0.12f)
+        showWrong -> WrongAnswerCardColor.copy(alpha = 0.12f)
         else -> MaterialTheme.colorScheme.surface
     }
 
     val borderColor = when {
-        showCorrect -> CorrectGreen
-        showWrong -> WrongRed
+        showCorrect -> CorrectAnswerCardColor
+        showWrong -> WrongAnswerCardColor
         else -> MaterialTheme.colorScheme.outlineVariant
     }
 
     val labelBgColor = when {
-        showCorrect -> CorrectGreen
-        showWrong -> WrongRed
+        showCorrect -> CorrectAnswerCardColor
+        showWrong -> WrongAnswerCardColor
         else -> MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
     }
 
@@ -92,7 +83,8 @@ fun OptionCard(
                 onClick = onClick
             )
             .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         Box(
             modifier = Modifier
@@ -107,8 +99,6 @@ fun OptionCard(
             )
         }
 
-        Spacer(modifier = Modifier.width(14.dp))
-
         Text(
             text = optionText,
             style = MaterialTheme.typography.bodyLarge,
@@ -120,15 +110,13 @@ fun OptionCard(
             Icon(
                 imageVector = Icons.Default.CheckCircle,
                 contentDescription = "Correct",
-                tint = CorrectGreen,
-                modifier = Modifier.size(24.dp)
+                tint = CorrectAnswerCardColor
             )
         } else if (showWrong) {
             Icon(
                 imageVector = Icons.Default.Cancel,
                 contentDescription = "Wrong",
-                tint = WrongRed,
-                modifier = Modifier.size(24.dp)
+                tint = WrongAnswerCardColor
             )
         }
     }
@@ -141,6 +129,28 @@ private fun OptionCardPreview() {
         label = "A",
         optionText = "Sample Option Text",
         state = OptionState.NORMAL,
+        onClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun OptionCardCorrectPreview() {
+    OptionCard(
+        label = "D",
+        optionText = "Sample Option Text 2",
+        state = OptionState.CORRECT,
+        onClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun OptionCardWrongPreview() {
+    OptionCard(
+        label = "B",
+        optionText = "Sample Option Text 3",
+        state = OptionState.WRONG,
         onClick = {}
     )
 }

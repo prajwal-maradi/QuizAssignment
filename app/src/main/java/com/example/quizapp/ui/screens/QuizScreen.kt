@@ -18,8 +18,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -38,14 +36,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.quizapp.OptionState
 import com.example.quizapp.data.model.Question
 import com.example.quizapp.ui.components.OptionCard
-import com.example.quizapp.ui.components.OptionState
 import com.example.quizapp.ui.components.StreakBadge
 import com.example.quizapp.ui.components.StreakCelebration
 import com.example.quizapp.viewmodel.QuizUiState
-
-private val CardShape = RoundedCornerShape(16.dp)
 
 /**
  * A composable that represents the main quiz screen.
@@ -71,8 +67,7 @@ fun QuizScreen(
 
             // Question card
             Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = CardShape,
+                shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 ),
@@ -96,14 +91,11 @@ fun QuizScreen(
             }
 
             // Options
-            LazyColumn(
+            Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                itemsIndexed(
-                    items = question.options,
-                    key = { index, _ -> index }
-                ) { index, option ->
+                question.options.forEachIndexed { index, option ->
                     val optionState = when {
                         !state.showAnswer -> OptionState.NORMAL
                         index == question.correctAnswerIndex -> OptionState.CORRECT

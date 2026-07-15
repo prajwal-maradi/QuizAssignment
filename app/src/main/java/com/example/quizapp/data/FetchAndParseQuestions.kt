@@ -5,8 +5,6 @@ import com.example.quizapp.data.model.Question
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 class FetchAndParseQuestions(
@@ -15,14 +13,12 @@ class FetchAndParseQuestions(
 ) {
     private val gson = Gson()
     private var cachedQuestions: List<Question>? = null
-    private val mutex = Mutex()
-
     /**
      * Loads quiz questions from the local JSON file and caches them for future use.
      *
      * @return A list of [Question] objects parsed from the JSON file.
      */
-    suspend fun loadQuestions(): List<Question> = mutex.withLock {
+    suspend fun loadQuestions(): List<Question> {
         cachedQuestions?.let { return it }
 
         val questions = withContext(ioDispatcher) {
@@ -34,6 +30,6 @@ class FetchAndParseQuestions(
             gson.fromJson<List<Question>>(json, type)
         }
         cachedQuestions = questions
-        questions
+        return questions
     }
 }

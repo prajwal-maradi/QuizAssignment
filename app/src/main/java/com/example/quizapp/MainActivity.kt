@@ -8,22 +8,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
-import org.koin.androidx.compose.koinViewModel
 import com.example.quizapp.ui.screens.QuizScreen
 import com.example.quizapp.ui.screens.ResultScreen
 import com.example.quizapp.ui.screens.SplashScreen
 import com.example.quizapp.ui.theme.QuizAppTheme
 import com.example.quizapp.viewmodel.QuizUiState
 import com.example.quizapp.viewmodel.QuizViewModel
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,15 +36,7 @@ fun QuizApp() {
     val viewModel: QuizViewModel = koinViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    var celebrationStreak by remember { mutableStateOf<Int?>(null) }
-
-    LaunchedEffect(Unit) {
-        viewModel.streakCelebrationEvent.collectLatest { streak ->
-            celebrationStreak = streak
-            delay(2000)
-            celebrationStreak = null
-        }
-    }
+    val celebrationStreak by viewModel.streakCelebrationEvent.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier

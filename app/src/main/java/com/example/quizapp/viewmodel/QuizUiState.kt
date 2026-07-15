@@ -1,5 +1,6 @@
 package com.example.quizapp.viewmodel
 
+import com.example.quizapp.Performance
 import com.example.quizapp.data.model.Question
 
 /**
@@ -32,25 +33,6 @@ sealed interface QuizUiState {
     ) : QuizUiState {
         val wrongAnswers: Int = totalQuestions - score - skipped
         val percentage: Float = if (totalQuestions > 0) score * 100f / totalQuestions else 0f
-        val performance: Performance = Performance.from(percentage)
-    }
-
-    /**
-     * Represents the performance level based on the user's score percentage.
-     */
-    enum class Performance(val label: String) {
-        EXCELLENT("Excellent!"),
-        GREAT("Great Job!"),
-        GOOD("Good Effort!"),
-        PRACTICE("Keep Practicing!");
-
-        companion object {
-            fun from(percentage: Float): Performance = when {
-                percentage >= 80 -> EXCELLENT
-                percentage >= 60 -> GREAT
-                percentage >= 40 -> GOOD
-                else -> PRACTICE
-            }
-        }
+        val performance: Performance = Performance.evaluatePerformance(percentage)
     }
 }
