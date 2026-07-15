@@ -53,6 +53,8 @@ app/src/main/java/com/example/quizapp/
 │       ├── Color.kt            # Color definitions
 │       ├── Theme.kt            # Material 3 theme setup
 │       └── Type.kt             # Typography definitions
+├── utils/
+|     └── QuizUtils.kt          # for utility functions
 └── viewmodel/
     ├── QuizUiState.kt           # Sealed interface for UI states
     └── QuizViewModel.kt         # Business logic & state management
