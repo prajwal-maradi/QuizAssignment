@@ -36,7 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.quizapp.OptionState
+import com.example.quizapp.utils.OptionState
 import com.example.quizapp.data.model.Question
 import com.example.quizapp.ui.components.OptionCard
 import com.example.quizapp.ui.components.StreakBadge

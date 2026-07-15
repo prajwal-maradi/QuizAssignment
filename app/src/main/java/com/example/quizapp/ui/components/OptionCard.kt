@@ -24,7 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.quizapp.OptionState
+import com.example.quizapp.utils.OptionState
 
 private val CorrectAnswerCardColor = Color(0xFF4CAF50)
 private val WrongAnswerCardColor = Color(0xFFE53935)

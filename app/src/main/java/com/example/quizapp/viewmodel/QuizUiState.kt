@@ -1,6 +1,6 @@
 package com.example.quizapp.viewmodel
 
-import com.example.quizapp.Performance
+import com.example.quizapp.utils.Performance
 import com.example.quizapp.data.model.Question
 
 /**
